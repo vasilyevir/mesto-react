@@ -1,0 +1,15 @@
+.popup__window_type_form{
+    margin: 148px auto;
+    grid-template-columns: 430px 41px;
+    grid-template-rows: 41px 330px; 
+}
+
+@media (max-width: 478px){
+    .popup__window_type_form{
+        width: 90%;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        margin: 72px auto;
+    }
+}

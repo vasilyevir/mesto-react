@@ -1,0 +1,13 @@
+.profile__image-avatar{
+    width: 120px;
+    height: 120px;
+    border-radius: 60px;
+    margin: 0 auto;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.profile__image-avatar:hover{
+    background-image: url(../../../images/Vector.svg);
+    background: rgba(0, 0, 0, 0.8);
+}

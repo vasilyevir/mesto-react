@@ -1,0 +1,6 @@
+@media (min-width: 479px){
+    .popup__window{
+        position: relative;
+        display: grid;
+    }
+}

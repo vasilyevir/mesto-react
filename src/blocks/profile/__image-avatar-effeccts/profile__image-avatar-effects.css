@@ -1,0 +1,15 @@
+.profile__image-avatar-effects{
+    position: absolute;
+    /* background-image: url(../../../images/Vector.svg);
+    background-color: rgba(0, 0, 0, 0.8); */
+    width: 120px;
+    height: 120px;
+}
+
+.profile__image-avatar-effects:hover{
+    background-image: url(../../../images/Vector.svg);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 26px 26px;
+    background-color: rgba(0, 0, 0, 0.8);
+}
