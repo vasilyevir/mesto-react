@@ -4,7 +4,8 @@
     border: 1px solid #fff;
     margin-left: 17px;
     background-color: #000;
-    background-image: url(../../../images/Vector.png);
+    background-image: url(../../../images/Vector.svg);
+    background-size: 10px;
     background-repeat: no-repeat;
     background-position: center;
     cursor: pointer;

@@ -40,7 +40,7 @@ function Main(props){
     // console.log(<Card/>);
 
     return(
-    <div>
+    <div className="main">
         <section className="profile">
             <div className="profile__information">
                 <div
@@ -60,7 +60,8 @@ function Main(props){
                         className="profile__btn-edit" 
                         type="button"
                         onClick = {props.onEditProfile}
-                        ></button>
+                        >
+                        </button>
                     </div>
                 <p className="profile__job">{info.about}</p>
                 </div>

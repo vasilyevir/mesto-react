@@ -2,6 +2,7 @@
 @import './vendor/inter.css';
 @import './blocks/root/root.css';
 @import './blocks/header/header.css';
+@import './blocks/main/main.css';
 @import './blocks/logo/logo.css';
 @import './blocks/profile/profile.css';
 @import './blocks/profile/__btn-add/profile__btn-add.css';

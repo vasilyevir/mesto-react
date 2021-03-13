@@ -9,7 +9,8 @@ function ImagePopup(props){
                 ></button>
                 <div className="popup__element">
                     <img 
-                        src={`url(${props.card.link})`} 
+                        src={`${props.card.link}`}
+                        // `url(${props.card.link})` 
                         alt={props.card.name} 
                         className="popup__image"/>
                     <p className="popup__text popup__text_type_image">{props.card.name}</p>
