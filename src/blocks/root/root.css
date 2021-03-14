@@ -4,5 +4,8 @@
     color: #fff;
     font-weight: normal;
     /* max-width: 1280px; */
-    margin: auto;
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+    /* justify-content: center; */
 }
