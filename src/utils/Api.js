@@ -1,4 +1,4 @@
-class Api{
+class api{
     constructor(data){
         this._groupId = data.groupId;
         this._address = data.address;
