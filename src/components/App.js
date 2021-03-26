@@ -6,7 +6,7 @@ import EditProfilePopup from './EditProfilePopup';
 import EditAvatarPopup from './EditAvatarPopup';
 import AddPlacePopup from './AddPlacePopup'
 import {useState, useEffect} from 'react';
-import api from '../utils/Api'
+import api from '../utils/api'
 import CurrentUserContext from '../contexts/CurrentUserContext';
 import CurrentCardContext from '../contexts/CurrentCardContext';
 
