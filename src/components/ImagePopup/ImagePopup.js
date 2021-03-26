@@ -1,5 +1,5 @@
 function ImagePopup(props){
-    console.log(props);
+    // console.log(props);
     return(
         <section className={`popup popup_card ${(props.card !== '') && 'popup_is-opened'}`}>
             <div className="popup__window popup__window_type_image">

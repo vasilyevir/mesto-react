@@ -1,4 +1,5 @@
 function PopupWithForm (props){
+
     return(
         // ${props.isOpen && 'popup_is-opened'}
         <section className={`popup popup_${props.name} ${props.isOpen && 'popup_is-opened'}`}>
@@ -8,7 +9,7 @@ function PopupWithForm (props){
                     className={`popup__btn-close popup__btn-close_${props.name}`} 
                     type="button"
                 ></button>
-                <form className={`popup__list popup__list_${props.name}`} name="formEdit">
+                <form className={`popup__list popup__list_${props.name}`} onSubmit={props.submitForm} name="formEdit">
                     {props.children}
                 </form>
             </div>

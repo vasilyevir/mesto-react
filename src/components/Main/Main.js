@@ -1,53 +1,36 @@
-import {useState, useEffect} from 'react';
+import {useState, useEffect, useContext} from 'react';
 import ImagePopup from '../ImagePopup/ImagePopup';
 import PopupWithForm from '../PopupWithForm/PopupWithForm';
-import api from '../../utils/Api'
-import Card from '../Card/Card'
+import api from '../../utils/Api';
+import Card from '../Card/Card';
+import CurrentUserContext from '../../contexts/CurrentUserContext';
+import CurrentCardContext from '../../contexts/CurrentCardContext';
 
 
 function Main(props){
-    const [info, setInfo] = useState([])
-    const [cards, setCards] = useState([])
+    const currentUser = useContext(CurrentUserContext);
+    // const [currentCard, setCurrentCard] = useContext(CurrentCardContext);
 
-    // const handleRequest = () =>{
-    //     api.getInformation()
-    //         .then(data => {
-    //                 console.log(data);
-    //                 setInfo(data)
-    //             })
-    //             // setInfo(meInfo);
-    //             // console.log(info);
-    // }
 
-    // handleRequest();
-    // console.log(info);
-    useEffect (()=>{
-        api.getInformation()
-            .then(data => {
-                // console.log(data);
-                setInfo(data);
-            })
-    }, [])
 
-    useEffect (()=>{
-        api.getCards()
-            .then(data =>{
-                setCards(data);
-            })
-    }, [])
-    // console.log(cards);
-
-    // console.log(<Card/>);
+    // function handleCardLike(card) {
+    //     // Снова проверяем, есть ли уже лайк на этой карточке
+    //     const isLiked = card.likes.some(i => i._id === currentUser._id);
+        
+    //     // Отправляем запрос в API и получаем обновлённые данные карточки
+        
+    //     api.postLike(card._id, !isLiked).then((newCard) => {
+    //         setCurrentCard((state) => state.map((c) => c._id === card._id ? newCard : c));
+    //     });
+    // } 
 
     return(
     <div className="main">
         <section className="profile">
             <div className="profile__information">
                 <div
-                    //  src="url(${info.avatar})"
-                    //  alt="Логотип" 
                      className="profile__image-avatar"
-                     style={{ backgroundImage: `url(${info.avatar})` }}
+                     style={{ backgroundImage: `url(${currentUser.avatar})` }}
                 ></div>
                 <div 
                     className="profile__image-avatar-effects"
@@ -55,7 +38,7 @@ function Main(props){
                 ></div>
                 <div className="profile__intro">
                     <div className="profile__top-row">
-                        <h1 className="profile__name">{info.name}</h1>
+                        <h1 className="profile__name">{currentUser.name}</h1>
                         <button 
                         className="profile__btn-edit" 
                         type="button"
@@ -63,7 +46,7 @@ function Main(props){
                         >
                         </button>
                     </div>
-                <p className="profile__job">{info.about}</p>
+                <p className="profile__job">{currentUser.about}</p>
                 </div>
             </div>
             <button 
@@ -72,32 +55,11 @@ function Main(props){
                 onClick = {props.onAddPlace}    
             ></button>
         </section>
-        <PopupWithForm 
-            btnCloseClick = {props.onCloseEditProfile}
-            isOpen= {props.isOpenEditProfileForm}
-            onClose = {props.onCloseAllPopups}
-            name="edit"
-            children={<>
-                <h2 className="popup__text popup__text_type_form">Редактировать профиль</h2>
-                    <div className="popup__input-area">    
-                        <input required minLength="2" maxLength="40" type="text" className="popup__input popup__input_value_name" id="name" name="name" placeholder="Имя"/>
-                        <span id="name-error" className="popup__error"></span>
-                    </div>
-                    <div className="popup__input-area">
-                        <input required minLength="2" maxLength="200" type="text" className="popup__input popup__input_value_job" id="about" name="about" placeholder="О себе"/>
-                        <span id="about-error" className="popup__error"></span>
-                    </div>
-                    <button className="popup__btn-save" value="Сохранить" type="submit" name="closeEdit">
-                        Сохранить
-                    </button>
-            </>}
-        />
         <ImagePopup
             card = {props.isSelectedCardForm}
             onClose = {props.onCloseAllPopups}
         />
-        <PopupWithForm 
-            btnCloseClick = {props.onCloseAddPlace}
+        {/* <PopupWithForm 
             name="add"
             onClose = {props.onCloseAllPopups}
             isOpen={props.isOpenAddCardForm}
@@ -117,7 +79,7 @@ function Main(props){
                     </button>
                 </>
             }
-        />
+        /> */}
         <PopupWithForm
             name="confidence"
             children={
@@ -129,8 +91,7 @@ function Main(props){
                 </>
             }
         />
-        <PopupWithForm
-            btnCloseClick = {props.onCloseEditAvatar}
+        {/* <PopupWithForm
             name="avatar"
             onClose = {props.onCloseAllPopups}
             isOpen={props.isOpenEditAvatarForm}
@@ -146,16 +107,19 @@ function Main(props){
                     </button>
                 </>
             }
-        />
-        <section className="elements">
-             {cards.map((item, i)=>
-                 <Card
-                    key = {i}
-                    onCardClick = {props.onHandleCardClick}
-                    card = {item}
-                 />
-             )}
-        </section>
+        /> */}
+
+            <section className="elements">
+                {props.cards.map((item, i)=>
+                    <Card
+                        key = {i}
+                        onCardClick = {props.onHandleCardClick}
+                        card = {item}
+                        onCardLike={props.onHandleCardLike}
+                        onCardDelete={props.onHandleCardDelete}
+                    />
+                )}
+            </section>
     </div>
     )
 }
