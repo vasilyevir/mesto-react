@@ -1,10 +1,10 @@
 import {useState, useEffect, useContext} from 'react';
-import ImagePopup from '../ImagePopup/ImagePopup';
-import PopupWithForm from '../PopupWithForm/PopupWithForm';
-import api from '../../utils/Api';
-import Card from '../Card/Card';
-import CurrentUserContext from '../../contexts/CurrentUserContext';
-import CurrentCardContext from '../../contexts/CurrentCardContext';
+import ImagePopup from './ImagePopup';
+import PopupWithForm from './PopupWithForm';
+import api from '../utils/Api';
+import Card from './Card';
+import CurrentUserContext from '../contexts/CurrentUserContext';
+import CurrentCardContext from '../contexts/CurrentCardContext';
 
 
 function Main(props){

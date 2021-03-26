@@ -1,15 +1,14 @@
-import logo from '../../logo.svg';
-import './App.css';
-import Header from '../Header/Header'
-import Footer from '../Footer/Footer';
-import Main from '../Main/Main';
-import EditProfilePopup from '../EditProfilePopup/EditProfilePopup';
-import EditAvatarPopup from '../EditAvatarPopup/EditAvatarPopup';
-import AddPlacePopup from '../AddPlacePopup/AddPlacePopup'
+import logo from '../logo.svg';
+import Header from './Header'
+import Footer from './Footer';
+import Main from './Main';
+import EditProfilePopup from './EditProfilePopup';
+import EditAvatarPopup from './EditAvatarPopup';
+import AddPlacePopup from './AddPlacePopup'
 import {useState, useEffect} from 'react';
-import api from '../../utils/Api'
-import CurrentUserContext from '../../contexts/CurrentUserContext';
-import CurrentCardContext from '../../contexts/CurrentCardContext';
+import api from '../utils/Api'
+import CurrentUserContext from '../contexts/CurrentUserContext';
+import CurrentCardContext from '../contexts/CurrentCardContext';
 
 
 function App() {
@@ -85,7 +84,7 @@ function App() {
 
     const handleCardClick = (data) =>{
         setIsSelectedCard(data)
-        console.log(isSelectedCard);
+        // console.log(isSelectedCard);
     }
 
     const handleUpdateUser = (data) =>{

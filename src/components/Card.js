@@ -1,5 +1,5 @@
 import {useContext} from 'react';
-import CurrentUserContext from '../../contexts/CurrentUserContext';
+import CurrentUserContext from '../contexts/CurrentUserContext';
 
 
 const Card = (props) => {
@@ -35,7 +35,7 @@ const Card = (props) => {
                 alt={props.card.name} 
                 src={props.card.link} 
                 className="element__image"
-                onClick={handleCardDelete}    
+                onClick={handleClick}    
             />
             <button 
                 className={cardDeleteButtonClassName} 
