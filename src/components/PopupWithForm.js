@@ -10,6 +10,7 @@ function PopupWithForm (props){
                     type="button"
                 ></button>
                 <form className={`popup__list popup__list_${props.name}`} onSubmit={props.submitForm} name="formEdit">
+                    <h2 className="popup__text popup__text_type_form">{props.title}</h2>
                     {props.children}
                 </form>
             </div>

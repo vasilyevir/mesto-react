@@ -5,6 +5,7 @@ import Main from './Main';
 import EditProfilePopup from './EditProfilePopup';
 import EditAvatarPopup from './EditAvatarPopup';
 import AddPlacePopup from './AddPlacePopup'
+import ImagePopup from './ImagePopup';
 import {useState, useEffect} from 'react';
 import api from '../utils/api'
 import CurrentUserContext from '../contexts/CurrentUserContext';
@@ -15,10 +16,11 @@ function App() {
     const [isOpenEditAvatar, setIsOpenEditAvatar] = useState(false);
     const [isOpenEditProfile, setIsOpenEditProfile] = useState(false);
     const [isOpenAddCard, setIsOpenAddCard] = useState(false);
-    const [isSelectedCard, setIsSelectedCard] = useState('')
-    const [currentUser, setCurrentUser] = useState('');
-    const [currentCard, setCurrentCard] = useState([]);
+    const [isSelectedCard, setIsSelectedCard] = useState({name: '', link: ''})
+    const [currentUser, setCurrentUser] = useState({});
+    const [currentCards, setCurrentCards] = useState([]);
 
+    console.log(isSelectedCard.link)
 
 
     useEffect(()=>{
@@ -26,13 +28,16 @@ function App() {
         .then(data => {
             setCurrentUser(data);
         })
+        .catch((err)=>{console.log(err)})
+
     },[])
 
     useEffect(()=>{
         api.getCards()
         .then(data => {
-            setCurrentCard(data);
+            setCurrentCards(data);
         })
+        .catch((err)=>{console.log(err)})
     },[])
 
     function handleCardLike(card) {
@@ -42,25 +47,27 @@ function App() {
         // Отправляем запрос в API и получаем обновлённые данные карточки
         
         api.postLike(card._id, !isLiked).then((newCard) => {
-            setCurrentCard((state) => state.map((c) => c._id === card._id ? newCard : c));
-        });
+            setCurrentCards((state) => state.map((c) => c._id === card._id ? newCard : c));
+        })
+        .catch((err)=>{console.log(err)}) 
     }
 
     const handleCardDelete = (cardId) =>{
-        const cards = currentCard.filter(card => card._id !== cardId);
+        const cards = currentCards.filter(card => card._id !== cardId);
         // console.log(cards);
 
         api.deleteCard(cardId)
             .then(() =>{
-                setCurrentCard(cards)
+                setCurrentCards(cards)
             })
     }
 
     const handleUpdateCard = (obj) =>{
         api.postCard(obj)
             .then(newCard => {
-                setCurrentCard([newCard, ...currentCard]);
+                setCurrentCards([newCard, ...currentCards]);
             })
+            .catch((err)=>{console.log(err)})
     }
 
     const handleUpdateAvatar = (props) =>{
@@ -68,6 +75,7 @@ function App() {
             .then(data =>{
                 setCurrentUser(data);
             })
+            .catch((err)=>{console.log(err)})
     }
 
     const handleEditAvatarClick = () =>{        
@@ -92,6 +100,7 @@ function App() {
             .then(data =>{
                 setCurrentUser(data);
             })
+            .catch((err)=>{console.log(err)})
     }
 
     const isEditProfilePopupOpen = () =>{
@@ -110,14 +119,14 @@ function App() {
         setIsOpenAddCard(false);
         setIsOpenEditProfile(false);
         setIsOpenEditAvatar(false);
-        setIsSelectedCard('');
+        setIsSelectedCard({name: '', link: ''});
     }
 
   return (
     <div className="root">
         <Header />
         <CurrentUserContext.Provider value={currentUser}>
-            <CurrentCardContext.Provider value={[currentCard, setCurrentCard]}>
+            <CurrentCardContext.Provider value={[currentCards, setCurrentCards]}>
                 <Main 
                     onEditProfile ={handleEditProfileClick}
                     onAddPlace ={handleAddPlaceClick}
@@ -127,7 +136,7 @@ function App() {
                     onHandleCardLike = {handleCardLike}
                     onHandleCardDelete = {handleCardDelete}
                     isSelectedCardForm = {isSelectedCard}
-                    cards={currentCard}
+                    cards={currentCards}
                 />
                 <EditProfilePopup 
                     isOpen={isOpenEditProfile} 
@@ -146,16 +155,10 @@ function App() {
                     onClose={closeAllPopups}
                     onUpdateCard={handleUpdateCard}
                 />
-                {/* <section className="elements">
-                {currentCard.map((item, i)=>
-                    <Card
-                        key = {i}
-                        onCardClick = {props.onHandleCardClick}
-                        card = {item}
-                        onCardLike={handleCardLike}
-                    />
-                )}
-                </section> */}
+                <ImagePopup
+                    card = {isSelectedCard.link !== "" ? isSelectedCard : ""}
+                    onClose = {closeAllPopups}
+                />
             </CurrentCardContext.Provider>
         </CurrentUserContext.Provider>
         <Footer />

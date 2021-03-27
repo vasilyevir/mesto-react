@@ -30,9 +30,9 @@ function AddPlacePopup(props) {
             onClose = {props.onClose}
             isOpen={props.isOpen}
             submitForm={handleSubmit}
-            children= {
+            title="Новое место"
+            >
                 <>
-                    <h2 className="popup__text popup__text_type_form">Новое место</h2>
                     <div className="popup__input-area">
                         <input required minLength="2" maxLength="30" value={name} onChange={handleChangeInputName} type="text" className="popup__input popup__input_value_name-image" name="nameCard" id="nameCard" placeholder="Название"/>
                         <span id="nameCard-error" className="popup__error"></span>
@@ -45,8 +45,7 @@ function AddPlacePopup(props) {
                         Создать
                     </button>
                 </>
-            }
-        />
+            </PopupWithForm>
     )
 }
 export default AddPlacePopup;
