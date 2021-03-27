@@ -39,7 +39,7 @@ function Main(props){
             ></button>
         </section>
             <section className="elements">
-                {props.cards.map((item, i)=>
+                {props.cards.map((item)=>
                     (<Card
                         key = {item._id}
                         onCardClick = {props.onHandleCardClick}
