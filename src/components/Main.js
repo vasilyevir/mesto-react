@@ -2,12 +2,21 @@ import {useState, useEffect, useContext} from 'react';
 import PopupWithForm from './PopupWithForm';
 import Card from './Card';
 import CurrentUserContext from '../contexts/CurrentUserContext';
+import { Route, Switch, Redirect, useHistory, Link} from 'react-router-dom';
+import Header from './Header';
 
 
 function Main(props){
     const currentUser = useContext(CurrentUserContext);
 
     return(
+    <>
+    <Header>
+        <div className="">
+            <p className="login__link">email</p>
+            <Link className="login__link" to="/signin">Выйти</Link>
+        </div>
+    </Header>
     <div className="main">
         <section className="profile">
             <div className="profile__information">
@@ -50,6 +59,7 @@ function Main(props){
                 )}
             </section>
     </div>
+    </>
     )
 }
 

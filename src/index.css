@@ -47,3 +47,10 @@
 @import './blocks/element/__like-number/element__like-number.css';
 @import './blocks/footer/footer.css';
 @import './blocks/footer/__text/footer__text.css';
+@import './blocks/login/login.css';
+@import './blocks/login/__input/login__input.css';
+@import './blocks/login/__header/login__header.css';
+@import './blocks/login/__form/login__form.css';
+@import './blocks/login/__button/login__button.css';
+@import './blocks/login/__registr/login__registr.css';
+@import './blocks/login/__link/login__link.css';
