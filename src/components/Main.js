@@ -4,17 +4,22 @@ import Card from './Card';
 import CurrentUserContext from '../contexts/CurrentUserContext';
 import { Route, Switch, Redirect, useHistory, Link} from 'react-router-dom';
 import Header from './Header';
-
+import EditProfilePopup from './EditProfilePopup';
+import EditAvatarPopup from './EditAvatarPopup';
+import AddPlacePopup from './AddPlacePopup'
+import ImagePopup from './ImagePopup';
+import InfoTooltip from "./InfoTooltip";
 
 function Main(props){
     const currentUser = useContext(CurrentUserContext);
+    // console.log(props)
 
     return(
     <>
     <Header>
-        <div className="">
-            <p className="login__link">email</p>
-            <Link className="login__link" to="/signin">Выйти</Link>
+        <div className="profile__user-content">
+            <p className="profile__email">{props.user.email}</p>
+            <Link className="login__link" onClick={props.signOut} to="/signin">Выйти</Link>
         </div>
     </Header>
     <div className="main">
@@ -46,6 +51,33 @@ function Main(props){
                 type="button"
                 onClick = {props.onAddPlace}    
             ></button>
+            <EditProfilePopup 
+                    isOpen={props.isOpenEditProfile} 
+                    onClose={props.closeAllPopups} 
+                    onUpdateUser={props.handleUpdateUser}
+                    // onChangeInputName={handleChangeInputName}
+                    // onChangeInputAbout={handleChangeInputAbout}
+                />
+                <EditAvatarPopup
+                    isOpen={props.isOpenEditAvatar}
+                    onClose={props.closeAllPopups}
+                    onUpdateAvatar={props.handleUpdateAvatar}
+                />
+                <AddPlacePopup
+                    isOpen={props.isOpenAddCard}
+                    onClose={props.closeAllPopups}
+                    onUpdateCard={props.handleUpdateCard}
+                />
+                <InfoTooltip
+                    onClose={props.closeAllPopups}
+                    image={props.infoTooltipImage}
+                    text={props.infoTooltipText}
+                    isOpenInfoTooltip={props.isOpenInfoTooltip}
+                />
+                {/* <ImagePopup
+                    card = {props.isSelectedCard.link !== "" ? props.isSelectedCard : ""}
+                    onClose = {props.closeAllPopups}
+                /> */}
         </section>
             <section className="elements">
                 {props.cards.map((item)=>

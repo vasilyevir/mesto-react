@@ -1,0 +1,4 @@
+.profile__user-content{
+    display: flex;
+    flex-direction: row;
+}

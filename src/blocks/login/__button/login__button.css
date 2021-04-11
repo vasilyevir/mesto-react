@@ -3,3 +3,13 @@
     height: 50px;
     margin-top: 216px;
 }
+
+@media (max-width: 540px){
+    .login__button{
+        margin: 173px auto 0;
+        font-size: 14px;
+        line-height: 17px;
+        height: 46px;
+        width: 75%;
+    }
+}

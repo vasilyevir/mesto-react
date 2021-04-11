@@ -10,7 +10,6 @@ import Login from './Login';
 import Register from './Register';
 import {useState, useEffect} from 'react';
 import { Route, Switch, Redirect, useHistory, Link} from 'react-router-dom';
-import {useRoutes} from 'hookrouter';
 import ProtectedRoute from './ProtectedRoute';
 import api from '../utils/api'
 import CurrentUserContext from '../contexts/CurrentUserContext';
@@ -21,6 +20,7 @@ import * as Auth from './Auth';
 function App() {
     const [isOpenEditAvatar, setIsOpenEditAvatar] = useState(false);
     const [isOpenEditProfile, setIsOpenEditProfile] = useState(false);
+    const [isOpenInfoTooltip, setIsOpenInfoTooltip] = useState(false);
     const [isOpenAddCard, setIsOpenAddCard] = useState(false);
     const [isSelectedCard, setIsSelectedCard] = useState({name: '', link: ''})
     const [currentUser, setCurrentUser] = useState({});
@@ -30,15 +30,8 @@ function App() {
         username: '',
         email: ''
       })
-
-    // const routes = {
-    //   "/main": () => (<>
-    //                       <p className="">email</p>
-    //                       <Link className="login__link" to="/signin">Выйти</Link>
-    //                   </>),
-    //   "/signup": () => ( <Link className="login__link login__link_header" to="/signin">Войти</Link> ),
-    //   "/signin": () => (<Link className="login__link" to="/signup">Регистрация</Link>)
-    // };
+    const [infoTooltipImage, setInfoTooltipImage] = useState("");
+    const [infoTooltipText, setInfoTooltipText] = useState("");
 
     useEffect(() => {
       tokenCheck()
@@ -47,20 +40,20 @@ function App() {
     const handleLogin = ({ password, email  }) => {
       return Auth.authorize(password, email)
         .then((data) => {
-          console.log(data)
+          // console.log(data)
           if (!data) throw new Error('Неверные имя пользователя или пароль')
           if (data.token) {
-            // console.log(1)
             setLoggedIn(true)
             localStorage.setItem('token', data.token)
-            // console.log(localStorage)
-            history.push('/main')
-            // tokenCheck()
             // console.log(loggedIn)
+            infoTooltipPopup();
+            history.push('/main')
             return;
           }
-          console.log(data.jwt)
         })
+        .catch(() => 
+            infoTooltipPopup()
+          )
     }
 
     useEffect(() => {
@@ -85,13 +78,17 @@ function App() {
     const tokenCheck = () => {
       if (localStorage.getItem('token')) {
         let token = localStorage.getItem('token');
-        console.log(token)
+        // console.log(token)
         Auth.getContent(token).then(({data}) => {
-          console.log(data)
-          console.log(data.email)
+          // console.log(data)
+          // console.log(data.email)
           if (data._id) {
             setLoggedIn(true)
-            setUserData(data._id, data.email)
+            // console.log(data)
+            setUserData(data)
+            // infoTooltipPopup();
+            // console.log(currentUser)
+            // setCurrentUser(...currentUser, data)
             console.log(userData)
           }
       })
@@ -101,7 +98,7 @@ function App() {
       api.getInformation()
       .then(data => {
           setCurrentUser(data);
-          console.log(data)
+          // console.log(data)
       })
       .catch((err)=>{console.log(err)})
 
@@ -214,26 +211,47 @@ function App() {
             setIsOpenEditAvatar(true);
     }
 
+    const isInfoTooltipPopupOpen = () =>{
+      setIsOpenInfoTooltip(true);
+    }
+
     const closeAllPopups = () => {
         setIsOpenAddCard(false);
         setIsOpenEditProfile(false);
         setIsOpenEditAvatar(false);
+        setIsOpenInfoTooltip(false);
         setIsSelectedCard({name: '', link: ''});
     }
 
-    // const routesResult = useRoutes(routes);
+    const signOut = () =>{
+      localStorage.removeItem('token');
+      history.push('/singin');
+      setLoggedIn(false);
+    }
+
+    const  infoTooltipPopup = () => {
+      isInfoTooltipPopupOpen();
+      console.log(localStorage.token !== undefined)
+      if (localStorage.token){
+        setInfoTooltipImage(`url(../images/Union.png)`);
+        setInfoTooltipText('Вы успешно зарегистрировались!');
+        // console.log(infoTooltipImage)
+      } else {
+        setInfoTooltipImage('../images/NotUnion.png');
+        setInfoTooltipText('Что-то пошло не так! Попробуйте ещё раз.');
+      }
+        console.log(infoTooltipImage)
+
+    }
 
   return (
     <div className="root">
         <CurrentUserContext.Provider value={currentUser}>
             <CurrentCardContext.Provider value={[currentCards, setCurrentCards]}>
-                {/* <Header>{routesResult}</Header> */}
                 <Switch>
-                    {/* <ProtectedRoute path='/' loggedIn={loggedIn} component={Main}/> */}
-                    {/* <MainPage/> */}
-                    {/* loggedIn={loggedIn} */}
                     <ProtectedRoute path="/main" 
                         loggedIn={loggedIn} 
+                        signOut={signOut}
                         component={Main}
                         onEditProfile ={handleEditProfileClick}
                         onAddPlace ={handleAddPlaceClick}
@@ -244,9 +262,26 @@ function App() {
                         onHandleCardDelete = {handleCardDelete}
                         isSelectedCardForm = {isSelectedCard}
                         cards={currentCards}
+                        user={userData}
+                        isOpenEditProfile={isOpenEditProfile} 
+                        handleUpdateAvatar={handleUpdateUser}
+                        isOpenEditAvatar={isOpenEditAvatar} 
+                        handleUpdateAvatar={handleUpdateAvatar}
+                        isOpenAddCard={isOpenAddCard}
+                        closeAllPopups={closeAllPopups}
+                        handleUpdateCard={handleUpdateCard}
+                        infoTooltipImage={infoTooltipImage}
+                        infoTooltipText={infoTooltipText}
+                        isOpenInfoTooltip={isOpenInfoTooltip}
                     />
                     <Route exact path='/signin'>
-                        <Login onLogin={handleLogin}/>
+                        <Login 
+                          onLogin={handleLogin}
+                          infoTooltipImage={infoTooltipImage}
+                          infoTooltipText={infoTooltipText}
+                          isOpenInfoTooltip={isOpenInfoTooltip}
+                          closeAllPopups={closeAllPopups}                        
+                        />
                     </Route>
                     <Route path='/signup'>
                         <Register onRegister={handleRegister}/>

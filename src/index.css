@@ -14,6 +14,11 @@
 @import './blocks/profile/__job/profile__job.css';
 @import './blocks/profile/__name/profile__name.css';
 @import './blocks/profile/__top-row/profile__top-row.css';
+@import './blocks/profile/__email/profile__email.css';
+@import './blocks/profile/__user-content/profile__user-content.css';
+@import './blocks/info-tolltip/__image/info-tooltip__image.css';
+@import './blocks/info-tolltip/__image/_right/info-tooltip__image_right.css';
+@import './blocks/info-tolltip/__image/_wrong/info-tooltip__image_wrong.css';
 @import './blocks/popup/popup.css';
 @import './blocks/popup/__btn-close/popup__btn-close.css';
 @import './blocks/popup/__btn-save/_invalid/popup__btn-save_invalid.css';

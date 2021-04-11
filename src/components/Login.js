@@ -2,9 +2,10 @@ import Header from './Header';
 import Footer from './Footer';
 import {useState, useEffect, useHistory} from 'react';
 import {Link} from 'react-router-dom';
+import InfoTooltip from './InfoTooltip';
 
 
-function Login({onLogin}) {
+function Login(props) {
     const [userData, setUserData] = useState({
         email: '',
         password: ''
@@ -21,7 +22,7 @@ function Login({onLogin}) {
 
     const handleSubmit = (e) => {
     e.preventDefault();
-    onLogin(userData)
+    props.onLogin(userData)
     .catch(err => setMessage(err.message || 'Что-то пошло не так'));
     }
 
@@ -45,7 +46,12 @@ function Login({onLogin}) {
                 </form>
                 {/* <p className="login__registr">Уже зарегистрированы? <Link className="login__link" to="/sing-up">Войти</Link> </p> */}
             </div>
-            <Footer/>
+            <InfoTooltip
+                    onClose={props.closeAllPopups}
+                    image={props.infoTooltipImage}
+                    text={props.infoTooltipText}
+                    isOpenInfoTooltip={props.isOpenInfoTooltip}
+                />
         </>
     )
     
