@@ -45,7 +45,6 @@ const Registr = ({onRegister}) => {
                 </form>
                 <p className="login__registr">Уже зарегистрированы? <Link className="login__link" to="/signin">Войти</Link> </p>
             </div>
-            <Footer/>
         </>
     )
     
