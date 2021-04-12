@@ -18,11 +18,7 @@ import * as Auth from './Auth';
 
 
 function App() {
-    const [isOpenEditAvatar, setIsOpenEditAvatar] = useState(false);
-    const [isOpenEditProfile, setIsOpenEditProfile] = useState(false);
     const [isOpenInfoTooltip, setIsOpenInfoTooltip] = useState(false);
-    const [isOpenAddCard, setIsOpenAddCard] = useState(false);
-    const [isSelectedCard, setIsSelectedCard] = useState({name: '', link: ''})
     const [currentUser, setCurrentUser] = useState({});
     const [currentCards, setCurrentCards] = useState([]);
     const [loggedIn, setLoggedIn] = useState(false);
@@ -40,12 +36,10 @@ function App() {
     const handleLogin = ({ password, email  }) => {
       return Auth.authorize(password, email)
         .then((data) => {
-          // console.log(data)
           if (!data) throw new Error('Неверные имя пользователя или пароль')
           if (data.token) {
             setLoggedIn(true)
             localStorage.setItem('token', data.token)
-            // console.log(loggedIn)
             infoTooltipPopup();
             history.push('/main')
             return;
@@ -78,17 +72,10 @@ function App() {
     const tokenCheck = () => {
       if (localStorage.getItem('token')) {
         let token = localStorage.getItem('token');
-        // console.log(token)
         Auth.getContent(token).then(({data}) => {
-          // console.log(data)
-          // console.log(data.email)
           if (data._id) {
             setLoggedIn(true)
-            // console.log(data)
             setUserData(data)
-            // infoTooltipPopup();
-            // console.log(currentUser)
-            // setCurrentUser(...currentUser, data)
             console.log(userData)
           }
       })
@@ -175,22 +162,6 @@ function App() {
             .catch((err)=>{console.log(err)})
     }
 
-    const handleEditAvatarClick = () =>{        
-        isEditAvatarPopupOpen();
-    }
-
-    const handleEditProfileClick = () =>{        
-        isEditProfilePopupOpen();
-    }
-
-    const handleAddPlaceClick = () =>{        
-        isAddPlacePopupOpen();
-    }
-
-    const handleCardClick = (data) =>{
-        setIsSelectedCard(data)
-    }
-
     const handleUpdateUser = (data) =>{
         api.changeProfile(data)
             .then(data =>{
@@ -199,28 +170,12 @@ function App() {
             .catch((err)=>{console.log(err)})
     }
 
-    const isEditProfilePopupOpen = () =>{
-            setIsOpenEditProfile(true);
-    }
-
-    const isAddPlacePopupOpen = () =>{
-            setIsOpenAddCard(true);
-    }
-
-    const isEditAvatarPopupOpen = () =>{
-            setIsOpenEditAvatar(true);
-    }
-
     const isInfoTooltipPopupOpen = () =>{
       setIsOpenInfoTooltip(true);
     }
 
-    const closeAllPopups = () => {
-        setIsOpenAddCard(false);
-        setIsOpenEditProfile(false);
-        setIsOpenEditAvatar(false);
+    const closeInfoTooltipPopup = () => {
         setIsOpenInfoTooltip(false);
-        setIsSelectedCard({name: '', link: ''});
     }
 
     const signOut = () =>{
@@ -235,7 +190,6 @@ function App() {
       if (localStorage.token){
         setInfoTooltipImage(`url(../images/Union.png)`);
         setInfoTooltipText('Вы успешно зарегистрировались!');
-        // console.log(infoTooltipImage)
       } else {
         setInfoTooltipImage('../images/NotUnion.png');
         setInfoTooltipText('Что-то пошло не так! Попробуйте ещё раз.');
@@ -253,26 +207,17 @@ function App() {
                         loggedIn={loggedIn} 
                         signOut={signOut}
                         component={Main}
-                        onEditProfile ={handleEditProfileClick}
-                        onAddPlace ={handleAddPlaceClick}
-                        onEditAvatar ={handleEditAvatarClick}
-                        onCloseAllPopups = {closeAllPopups}
-                        onHandleCardClick = {handleCardClick}
                         onHandleCardLike = {handleCardLike}
                         onHandleCardDelete = {handleCardDelete}
-                        isSelectedCardForm = {isSelectedCard}
                         cards={currentCards}
-                        user={userData}
-                        isOpenEditProfile={isOpenEditProfile} 
-                        handleUpdateAvatar={handleUpdateUser}
-                        isOpenEditAvatar={isOpenEditAvatar} 
+                        user={userData} 
+                        handleUpdateUser={handleUpdateUser}
                         handleUpdateAvatar={handleUpdateAvatar}
-                        isOpenAddCard={isOpenAddCard}
-                        closeAllPopups={closeAllPopups}
                         handleUpdateCard={handleUpdateCard}
                         infoTooltipImage={infoTooltipImage}
                         infoTooltipText={infoTooltipText}
                         isOpenInfoTooltip={isOpenInfoTooltip}
+                        closeInfoTooltipPopup={closeInfoTooltipPopup}                        
                     />
                     <Route exact path='/signin'>
                         <Login 
@@ -280,7 +225,7 @@ function App() {
                           infoTooltipImage={infoTooltipImage}
                           infoTooltipText={infoTooltipText}
                           isOpenInfoTooltip={isOpenInfoTooltip}
-                          closeAllPopups={closeAllPopups}                        
+                          closeInfoTooltipPopup={closeInfoTooltipPopup}                        
                         />
                     </Route>
                     <Route path='/signup'>

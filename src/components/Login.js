@@ -47,7 +47,7 @@ function Login(props) {
                 {/* <p className="login__registr">Уже зарегистрированы? <Link className="login__link" to="/sing-up">Войти</Link> </p> */}
             </div>
             <InfoTooltip
-                    onClose={props.closeAllPopups}
+                    onClose={props.closeInfoTooltipPopup}
                     image={props.infoTooltipImage}
                     text={props.infoTooltipText}
                     isOpenInfoTooltip={props.isOpenInfoTooltip}

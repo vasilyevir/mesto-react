@@ -12,7 +12,47 @@ import InfoTooltip from "./InfoTooltip";
 
 function Main(props){
     const currentUser = useContext(CurrentUserContext);
+    const [isOpenEditAvatar, setIsOpenEditAvatar] = useState(false);
+    const [isOpenEditProfile, setIsOpenEditProfile] = useState(false);
+    const [isOpenAddCard, setIsOpenAddCard] = useState(false);
+    const [isSelectedCard, setIsSelectedCard] = useState({name: '', link: ''})
     // console.log(props)
+
+        const handleEditAvatarClick = () =>{        
+            isEditAvatarPopupOpen();
+        }
+    
+        const handleEditProfileClick = () =>{        
+            isEditProfilePopupOpen();
+        }
+    
+        const handleAddPlaceClick = () =>{        
+            isAddPlacePopupOpen();
+        }
+
+    const isEditAvatarPopupOpen = () =>{
+        setIsOpenEditAvatar(true);
+    }
+
+    const isEditProfilePopupOpen = () =>{
+        setIsOpenEditProfile(true);
+}
+
+    const isAddPlacePopupOpen = () =>{
+            setIsOpenAddCard(true);
+    }
+
+    const handleCardClick = (data) =>{
+        setIsSelectedCard(data)
+    }
+
+    const closeAllPopups = () => {
+        setIsOpenAddCard(false);
+        setIsOpenEditProfile(false);
+        setIsOpenEditAvatar(false);
+        // setIsOpenInfoTooltip(false);
+        setIsSelectedCard({name: '', link: ''});
+    }
 
     return(
     <>
@@ -31,7 +71,7 @@ function Main(props){
                 ></div>
                 <div 
                     className="profile__image-avatar-effects"
-                    onClick = {props.onEditAvatar}    
+                    onClick = {handleEditAvatarClick}    
                 ></div>
                 <div className="profile__intro">
                     <div className="profile__top-row">
@@ -39,7 +79,7 @@ function Main(props){
                         <button 
                         className="profile__btn-edit" 
                         type="button"
-                        onClick = {props.onEditProfile}
+                        onClick = {handleEditProfileClick}
                         >
                         </button>
                     </div>
@@ -49,41 +89,39 @@ function Main(props){
             <button 
                 className="profile__btn-add" 
                 type="button"
-                onClick = {props.onAddPlace}    
+                onClick = {handleAddPlaceClick}    
             ></button>
             <EditProfilePopup 
-                    isOpen={props.isOpenEditProfile} 
-                    onClose={props.closeAllPopups} 
+                    isOpen={isOpenEditProfile} 
+                    onClose={closeAllPopups} 
                     onUpdateUser={props.handleUpdateUser}
-                    // onChangeInputName={handleChangeInputName}
-                    // onChangeInputAbout={handleChangeInputAbout}
                 />
                 <EditAvatarPopup
-                    isOpen={props.isOpenEditAvatar}
-                    onClose={props.closeAllPopups}
+                    isOpen={isOpenEditAvatar}
+                    onClose={closeAllPopups}
                     onUpdateAvatar={props.handleUpdateAvatar}
                 />
                 <AddPlacePopup
-                    isOpen={props.isOpenAddCard}
-                    onClose={props.closeAllPopups}
+                    isOpen={isOpenAddCard}
+                    onClose={closeAllPopups}
                     onUpdateCard={props.handleUpdateCard}
                 />
                 <InfoTooltip
-                    onClose={props.closeAllPopups}
+                    onClose={props.closeInfoTooltipPopup}
                     image={props.infoTooltipImage}
                     text={props.infoTooltipText}
                     isOpenInfoTooltip={props.isOpenInfoTooltip}
                 />
-                {/* <ImagePopup
-                    card = {props.isSelectedCard.link !== "" ? props.isSelectedCard : ""}
-                    onClose = {props.closeAllPopups}
-                /> */}
+                <ImagePopup
+                    card = {isSelectedCard.link !== "" ? isSelectedCard : ""}
+                    onClose = {closeAllPopups}
+                />
         </section>
             <section className="elements">
                 {props.cards.map((item)=>
                     (<Card
                         key = {item._id}
-                        onCardClick = {props.onHandleCardClick}
+                        onCardClick = {handleCardClick}
                         card = {item}
                         onCardLike={props.onHandleCardLike}
                         onCardDelete={props.onHandleCardDelete}

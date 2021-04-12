@@ -1,5 +1,6 @@
 import {useContext} from 'react';
 import CurrentUserContext from '../contexts/CurrentUserContext';
+import ImagePopup from './ImagePopup';
 
 
 const Card = (props) => {
@@ -30,6 +31,7 @@ const Card = (props) => {
     const cardLikeButtonClassName = `${isLiked ? 'element__heart element__heart_active' : 'element__heart'}`;
 
     return(
+        <>
         <div className="element">
             <img 
                 alt={props.card.name} 
@@ -51,6 +53,7 @@ const Card = (props) => {
                 </div>
             </div>
         </div>
+        </>
 )
 }
 
